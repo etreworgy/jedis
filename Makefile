@@ -14,6 +14,17 @@ endef
 
 export REDIS1_CONF
 export REDIS2_CONF
+build:
+	echo "$$REDIS1_CONF" | redis-server -
+	echo "$$REDIS2_CONF" | redis-server -
+
+	mvn package
+
+	kill `cat /tmp/redis1.pid`
+	kill `cat /tmp/redis2.pid`
+
+.PHONY: build
+
 test:
 	echo "$$REDIS1_CONF" | redis-server -
 	echo "$$REDIS2_CONF" | redis-server -
